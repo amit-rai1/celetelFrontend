@@ -9,3 +9,12 @@ export const loginAdmin = async (username, password) => {
     throw error;
   }
 };
+
+ export const createUser = async (userData) => {
+  try {
+    const response = await axios.post('http://localhost:9800/api/user/createUser', userData);
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error creating user: ${error.message}`);
+  }
+};

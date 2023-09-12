@@ -6,8 +6,15 @@ import './AddForm.css';
 import axios from 'axios'; // Import Axios
 import moment from 'moment';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function AddForm() {
+
+    const navigate = useNavigate();
+
     const ITEMS_PER_PAGE = 1; // Set the number of items per page
 
 
@@ -30,6 +37,67 @@ function AddForm() {
         };
 
         fetchData();
+    }, []);
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            const { key } = event;
+            const inputId = event.target.id;
+
+            if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowRight' || key === 'ArrowLeft') {
+                event.preventDefault();
+                const inputs = document.getElementsByTagName('input');
+                const currentIndex = Array.from(inputs).findIndex(input => input.id === inputId);
+
+                const numRows = 2; // Assuming 2 inputs per row for this example
+
+                switch (key) {
+                    // case 'ArrowUp':
+                    //     // Navigate to the input above (if possible)
+                    //     if (inputs[currentIndex - numRows]) {
+                    //         inputs[currentIndex - numRows].focus();
+                    //         copyToClipboard(inputs[currentIndex - numRows].id);
+                    //     }
+                    //     break;
+
+                    // case 'ArrowDown':
+                    //     // Navigate to the input below (if possible)
+                    //     if (inputs[currentIndex + numRows]) {
+                    //         inputs[currentIndex + numRows].focus();
+                    //         copyToClipboard(inputs[currentIndex + numRows].id);
+                    //     }
+                    //     break;
+
+                    case 'ArrowRight':
+                        // Navigate to the input on the right (if possible)
+                        if (inputs[currentIndex + 1]) {
+                            inputs[currentIndex + 1].focus();
+                            copyToClipboard(inputs[currentIndex + 1].id);
+                        }
+                        break;
+
+                    case 'ArrowLeft':
+                        // Navigate to the input on the left (if possible)
+                        if (inputs[currentIndex - 1]) {
+                            inputs[currentIndex - 1].focus();
+                            copyToClipboard(inputs[currentIndex - 1].id);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            } else if (key === 'Enter') {
+                // Handle Enter key press
+                event.preventDefault();
+                handleSubmit(event);
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        }
     }, []);
 
     const loadNextUserData = () => {
@@ -68,11 +136,22 @@ function AddForm() {
 
     };
     // Function to copy the input field value to clipboard
-    const copyToClipboard = (inputId) => {
+    const copyToClipboard = (inputId, buttonId) => {
         const inputElement = document.getElementById(inputId);
         inputElement.select();
         document.execCommand('copy');
+
+        const copyButton = document.getElementById(buttonId);
+
+        if (copyButton) {
+            copyButton.style.backgroundColor = 'green';
+
+            setTimeout(() => {
+                copyButton.style.backgroundColor = ''; // Reset to default color
+            }, 1000);
+        }
     }
+
 
     // Function to update the time
     const updateTime = () => {
@@ -89,6 +168,17 @@ function AddForm() {
         return () => clearInterval(intervalId);
     }, []);
 
+
+ const handleLogout = () => {
+        // Clear the token from local storage
+        localStorage.removeItem('token');
+
+        // Display a toast
+        toast.success('Logged out successfully!');
+
+        // Navigate to the login page
+        navigate('/');
+    };
     return (
         <div>
             {/* Header */}
@@ -98,14 +188,25 @@ function AddForm() {
                 </div>
                 <div className="profile">
                     <img src="images/Ellipse 1.png" alt="Profile Picture" />
-                    <p>
-                        {/* {userData[currentIndex]?.firstname} {userData[currentIndex]?.lastname} */}
-                        {/* {userData[currentIndex]?.Address} {userData[currentIndex]?.State} */}
-                        {/* {userData[currentIndex]?.City} {userData[currentIndex]?.Email} */}
-                        {/* {userData[currentIndex]} */}
-                        <br />
-                        <div id="current-time">Loading...</div>
-                    </p>
+                    <div>
+                        <p>
+                            {userData[currentIndex]?.firstname} {userData[currentIndex]?.lastname}
+                            <br />
+                            <div id="current-time">Loading...</div>
+                        </p>
+                        <button
+                            id="copyAddressButton"
+                            className="custom-button"
+                            onClick={handleLogout}
+                        >
+                            <span style={{ color: 'white' }}>logout</span>
+                            <img
+                                src="/images/logoutIcon.svg"
+                                alt="Logout"
+                                style={{ verticalAlign: 'middle' }}
+                            />
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -123,9 +224,17 @@ function AddForm() {
                                 name="firstName"
                                 value={userData[currentIndex]?.firstname || ''}
                                 onChange={handleChange} />
-                            <button className="copy-button" onClick={() => copyToClipboard('firstName')}>
+                            <button
+                                id="copyFirstNameButton"
+                                className="copy-button"
+                                onClick={() => copyToClipboard('firstName', 'copyFirstNameButton')}
+                            >
                                 <span style={{ color: 'white' }}>Copy</span>
-                                <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                                <img
+                                    src="/images/copy.svg"
+                                    alt="Copy"
+                                    style={{ verticalAlign: 'middle' }}
+                                />
                             </button>
                         </div>
 
@@ -137,20 +246,36 @@ function AddForm() {
                             value={userData[currentIndex]?.lastname || ''}
                             onChange={handleChange}
                         />
-                        <button className="copy-button" onClick={() => copyToClipboard('lastName')}>
+                        <button
+                            id="copyLastButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('lastName', 'copyLastButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email ID</label>
                         <input type="text" id="email"
-                            name="lastName"
+                            name="email"
                             value={userData[currentIndex]?.Email || ''}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('email')}>
+                        <button
+                            id="copyEmailButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('email', 'copyEmailButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
 
@@ -160,9 +285,17 @@ function AddForm() {
                         <input type="text" id="zip"
                             value={userData[currentIndex]?.Zip || ''}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('zip')}>
+                        <button
+                            id="copyZipButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('zip', 'copyZipButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
                     <div className="form-group">
@@ -170,9 +303,17 @@ function AddForm() {
                         <input type="text" id="address"
                             value={userData[currentIndex]?.Address || ''}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('address')}>
+                        <button
+                            id="copyAddressButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('address', 'copyAddressButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
                     <div className="form-group">
@@ -180,9 +321,17 @@ function AddForm() {
                         <input type="text" id="city"
                             value={userData[currentIndex]?.City || ''}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('city')}>
+                        <button
+                            id="copyCityButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('city', 'copyCityButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
 
@@ -192,9 +341,17 @@ function AddForm() {
                         <input type="text" id="state"
                             value={userData[currentIndex]?.State || ''}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('state')}>
+                        <button
+                            id="copyStateButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('state', 'copyStateButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
                     <div className="form-group">
@@ -202,9 +359,17 @@ function AddForm() {
                         <input type="text" id="phone"
                             value={userData[currentIndex]?.Homephone}
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('phone')}>
+                        <button
+                            id="copyPhoneButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('phone', 'copyPhoneButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
                     </div>
                     <div className="form-group">
@@ -213,16 +378,25 @@ function AddForm() {
                             value={userData[currentIndex]?.Dateofbirth}
 
                             onChange={handleChange} />
-                        <button className="copy-button" onClick={() => copyToClipboard('dob')}>
+                        <button
+                            id="copydobButton"
+                            className="copy-button"
+                            onClick={() => copyToClipboard('dob', 'copydobButton')}
+                        >
                             <span style={{ color: 'white' }}>Copy</span>
-                            <img src="/images/copy.svg" alt="Copy" style={{ verticalAlign: 'middle' }} />
+                            <img
+                                src="/images/copy.svg"
+                                alt="Copy"
+                                style={{ verticalAlign: 'middle' }}
+                            />
                         </button>
+
                     </div>
 
                     <div className="button">
-                        <button type="button" onClick={loadPreviousUserData}style={{ marginRight: '10px' }}>
+                        {/* <button type="button" onClick={loadPreviousUserData}style={{ marginRight: '10px' }}>
                             Load Previous
-                        </button>
+                        </button> */}
 
                         <button type="button" onClick={loadNextUserData}>
                             Load Next
@@ -230,7 +404,7 @@ function AddForm() {
                         </button>
                         <div className="page-number">
 
-                        <span>Page {getCurrentPageNumber()}</span>
+                            <span>Page {getCurrentPageNumber()}</span>
                         </div>
 
                     </div>

@@ -11,7 +11,9 @@ axios.defaults.baseURL = 'http://localhost:5001'; // Set the base URL for axios
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    
     <App />
+   
     </BrowserRouter>
   </React.StrictMode>
   

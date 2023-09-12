@@ -20,6 +20,7 @@ const Login = () => {
       if (response.status === 200) {
         console.log(response.status, "response.success")
         toast.success(response.msg);
+        localStorage.setItem('token', response.token)
         navigate('/AddForm');
         console.log(response.token);
       } else {

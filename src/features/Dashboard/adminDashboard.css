@@ -1,0 +1,300 @@
+/* AdminDashboard.css
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .dashboard {
+    text-align: center;
+  }
+  
+  .add-btn {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+  
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  form label,
+  form input,
+  form button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+  }
+  
+  form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+   */
+
+
+   .create-user,
+.create-user * {
+  box-sizing: border-box;
+}
+.create-user {
+  background: #ffffff;
+  border-radius: 6px;
+  width: 498px;
+  height: 642px;
+  position: relative;
+  overflow: hidden;
+}
+.frame-427319075 {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 28px;
+  top: 28px;
+}
+.frame-427319073 {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-427319070 {
+  display: flex;
+  flex-direction: row;
+  gap: 195px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.add-a-new-employee {
+  color: #242424;
+  text-align: left;
+  font: 500 20px "Poppins", sans-serif;
+  position: relative;
+}
+.frame-5800 {
+  background: var(--secondary-30, #fff2e2);
+  border-radius: 8px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.fi-x {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  overflow: visible;
+}
+.frame-427319072 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.employee-information {
+  color: var(--black-30, #8b8d97);
+  text-align: left;
+  font: 500 16px "Poppins", sans-serif;
+  position: relative;
+}
+.frame-427319071 {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-427319067 {
+  background: rgba(239, 241, 249, 0.6);
+  border-radius: 8px;
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.first-name {
+  color: #bababa;
+  text-align: left;
+  font: 400 14px/20.87px "Poppins", sans-serif;
+  position: relative;
+  width: 422px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.frame-427319068 {
+  background: rgba(239, 241, 249, 0.6);
+  border-radius: 8px;
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.last-name {
+  color: #bababa;
+  text-align: left;
+  font: 400 14px/20.87px "Poppins", sans-serif;
+  position: relative;
+  width: 422px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.frame-427319069 {
+  background: rgba(239, 241, 249, 0.6);
+  border-radius: 8px;
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.date-of-joining-dd-mm-yyyy {
+  color: #bababa;
+  text-align: left;
+  font: 400 14px/20.87px "Poppins", sans-serif;
+  position: relative;
+  width: 422px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.frame-427319066 {
+  background: rgba(239, 241, 249, 0.6);
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.phone-number {
+  color: #bababa;
+  text-align: left;
+  font: 400 14px/20.87px "Poppins", sans-serif;
+  position: relative;
+  width: 422px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.frame-427319065 {
+  background: rgba(239, 241, 249, 0.6);
+  border-radius: 8px;
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.email {
+  color: #bababa;
+  text-align: left;
+  font: 400 14px/20.87px "Poppins", sans-serif;
+  position: relative;
+  width: 422px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.buttons {
+  background: #2e2e2e;
+  border-radius: 8px;
+  padding: 14px 16px 14px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 290px;
+  position: relative;
+}
+.create-user2 {
+  color: #ffffff;
+  text-align: center;
+  font: 500 18px "Poppins", sans-serif;
+  position: relative;
+  width: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: Poppins;
     margin: 0;
     padding: 0;
@@ -27,7 +27,7 @@ header .profile {
     align-items: center;
 }
 
-header .profile img {
+header.profile img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -137,6 +137,16 @@ select {
     margin-left: 10px
 
 }
+.custom-button {
+    background-color: #131313;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 5px; /* Adjusted padding for larger button */
+    font-size: 10px; /* Adjusted font size for larger text */
+    margin-left: 10px; /* Added margin for spacing */
+}
 
 /* Style for the image inside the button */
 .copy-button img {
@@ -156,3 +166,6 @@ select {
     padding: 5px 10px;
     border-radius: 4px;
 }
+.green-text {
+    color: green !important;
+} 
