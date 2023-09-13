@@ -180,7 +180,7 @@ function AddForm() {
         navigate('/');
     };
     return (
-        <div>
+        <div className='header'>
             {/* Header */}
             <header>
                 <div className="logo">
@@ -189,12 +189,13 @@ function AddForm() {
                 <div className="profile">
                     <img src="images/Ellipse 1.png" alt="Profile Picture" />
                     <div>
-                        <p>
+                        <div className='ptext'>  <p>
                             {userData[currentIndex]?.firstname} {userData[currentIndex]?.lastname}
                             <br />
                             <div id="current-time">Loading...</div>
-                        </p>
-                        <button
+                        </p></div>
+                      <div className='logout'>
+                         <button
                             id="copyAddressButton"
                             className="custom-button"
                             onClick={handleLogout}
@@ -205,7 +206,8 @@ function AddForm() {
                                 alt="Logout"
                                 style={{ verticalAlign: 'middle' }}
                             />
-                        </button>
+                        </button></div>
+                       
                     </div>
                 </div>
             </header>

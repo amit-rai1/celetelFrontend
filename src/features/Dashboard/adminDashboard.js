@@ -40,14 +40,14 @@ function AdminDashboard() {
         try {
             const response = await createUser(formData);
             const { user_id, generated_password } = response.data;
-
-            // Show toast with success message
-            toast.success('User created successfully!', {
-                autoClose: 5000,
-                hideProgressBar: true,
-                position: toast.POSITION.TOP_RIGHT
-            });
-
+            if (response.statusCode === 200) {
+                // Show toast with success message
+                toast.success('User created successfully!', {
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
             // Show popup with user ID and password
             setShowPopup(true);
             setGeneratedPassword(generated_password);
@@ -72,18 +72,29 @@ function AdminDashboard() {
             position: toast.POSITION.TOP_RIGHT
         });
     };
-
+    const containerStyle = {
+        padding: '16px'
+    };
     return (
+
         <div style={{ textAlign: 'center' }}>
             <h1>Admin Dashboard</h1>
+
             <button
                 style={{
-                    backgroundColor: '#007bff',
-                    color: '#fff',
-                    fontSize: '16px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '10px 20px'
+                    background: '#2e2e2e',
+                    borderRadius: '12px',
+                    padding: '17px 16px',
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
+                    width: '180px',
+                    position: 'absolute',
+                    top: '105px',
+                    right: '20px',
+                    color: '#ffffff',
+                    fontSize: '20px',
+                    textAlign: 'center',
                 }}
                 onClick={openPopup}
             >
@@ -93,14 +104,16 @@ function AdminDashboard() {
             {showPopup && (
                 <div style={{
                     position: 'fixed',
-                    top: '0',
-                    left: '0',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: '#fff',
+                    padding: '20px',
+                    borderRadius: '5px',
+                    maxWidth: '500px',
                     width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    textAlign: 'center',
+                    boxSizing: 'border-box',
                 }}>
                     <div style={{
                         backgroundColor: '#fff',
@@ -121,78 +134,101 @@ function AdminDashboard() {
                             &times;
                         </span>
                         <h2>Add New User</h2>
-                        <form onSubmit={handleFormSubmit}>
-                            <label htmlFor="first_name">First Name</label>
-                            <input
-                                type="text"
-                                id="first_name"
-                                name="first_name"
-                                value={formData.first_name}
-                                onChange={handleInputChange}
-                                required
-                                style={{ width: 'calc(100% - 20px)', padding: '10px' }}
-                            /><br />
+                        <form
+                            onSubmit={handleFormSubmit}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '40px'
+                            }}
+                        >
+                            <div className="container" style={containerStyle}>
+                                <label htmlFor="first_name">First Name</label>
+                                <input
+                                    type="text"
+                                    id="first_name"
+                                    name="first_name"
+                                    value={formData.first_name}
+                                    onChange={handleInputChange}
+                                    required
+                                    style={{ width: 'calc(100% - 20px)', padding: '10px' }}
+                                /><br />
 
-                            <label htmlFor="last_name">Last Name</label>
-                            <input
-                                type="text"
-                                id="last_name"
-                                name="last_name"
-                                value={formData.last_name}
-                                onChange={handleInputChange}
-                                required
-                                style={{ width: 'calc(100% - 20px)', padding: '10px' }}
-                            /><br />
+                                <label htmlFor="last_name">Last Name</label>
+                                <input
+                                    type="text"
+                                    id="last_name"
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleInputChange}
+                                    required
+                                    style={{ width: 'calc(100% - 20px)', padding: '10px' }}
+                                /><br />
 
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                                style={{ width: 'calc(100% - 20px)', padding: '10px' }}
-                            /><br />
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                    style={{ width: 'calc(100% - 20px)', padding: '10px' }}
+                                /><br />
 
-                            <label htmlFor="date_of_joining">Date of Joining</label>
-                            <input
-                                type="date"
-                                id="date_of_joining"
-                                name="date_of_joining"
-                                value={formData.date_of_joining}
-                                onChange={handleInputChange}
-                                required
-                                style={{ width: 'calc(100% - 20px)', padding: '10px' }}
-                            /><br />
+                                <label htmlFor="date_of_joining">Date of Joining</label>
+                                <input
+                                    type="date"
+                                    id="date_of_joining"
+                                    name="date_of_joining"
+                                    value={formData.date_of_joining}
+                                    onChange={handleInputChange}
+                                    required
+                                    style={{ width: 'calc(100% - 20px)', padding: '10px' }}
+                                /><br />
 
-                            <button
-                                type="submit"
-                                style={{
-                                    backgroundColor: '#007bff',
-                                    color: '#fff',
-                                    border: 'none',
-                                    padding: '10px 20px',
-                                    cursor: 'pointer'
-                                }}
-                                onClick={handleCreateUser}
-                            >
-                                Create user
-                            </button>
-
+                                <button
+                                    type="submit"
+                                    style={{
+                                        background: '#2e2e2e',
+                                        borderRadius: '8px',
+                                        padding: '10px 20px',
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        gap: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        width: '290px',
+                                        position: 'relative',
+                                        color: '#ffffff',
+                                        textAlign: 'center',
+                                        font: '500 18px "Poppins", sans-serif',
+                                        position: 'relative',
+                                        width: '148px',
+                                        display: 'flex',
+                                        align: 'items: center',
+                                        margin: 'auto'
+                                    }}
+                                    onClick={handleCreateUser}
+                                >
+                                    Create user
+                                </button>
+                            </div>
 
                         </form>
                         {/* <div>
                             User ID: {userId}<br />
                             Password: {generatedPassword}
-                        </div>
-                        <div>
+                        </div> */}
+                        {/* <div>
                             <button onClick={copyPassword}>Copy Password</button>
                         </div> */}
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

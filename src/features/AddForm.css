@@ -16,10 +16,11 @@ header {
     padding: 10px 20px;
 }
 
-header .logo {
+header.logo {
     font-size: 24px;
     font-weight: bold;
     color: #213555;
+  
 }
 
 header .profile {
@@ -28,12 +29,28 @@ header .profile {
 }
 
 header.profile img {
-    width: 40px;
-    height: 40px;
+    box-sizing: border-box;
     border-radius: 50%;
-    margin-right: 10px;
+  flex-shrink: 0;
+  width: 68.84px;
+  height: 68.84px;
+  position: relative;
 }
-
+header.ptext {
+    color: #131313;
+    text-align: left;
+    font: 500 22.37px "Poppins", sans-serif;
+    position: relative;
+}
+header.logout{
+    color: #ffffff;
+    text-align: left;
+    font: 400 14.61px/20.87px "Inter", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
 /* Main content */
 .container {
     max-width: 800px;
