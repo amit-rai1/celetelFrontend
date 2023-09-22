@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import axios from 'axios'; // Import axios at the top
+// import axios from 'axios'; // Import axios at the top
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-axios.defaults.baseURL = 'http://localhost:5001'; // Set the base URL for axios
+// axios.defaults.baseURL = 'http://localhost:5001'; // Set the base URL for axios
 root.render(
   <React.StrictMode>
     <BrowserRouter>

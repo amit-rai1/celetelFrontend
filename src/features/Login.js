@@ -1,28 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { loginAdmin } from './Service/auth.service';
+import { loginAdmin, loginAuth } from './Service/auth.service';
 import { useNavigate } from 'react-router-dom';
+
+
+
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await loginAdmin(username, password);
-
-      if (response.status === 200) {
-        console.log(response.status, "response.success")
+      const response = await loginAuth(email, password);
+  
+      if (response.status === 200 && response.success) {
         toast.success(response.msg);
-        localStorage.setItem('token', response.token)
-        navigate('/AddForm');
-        console.log(response.token);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userId',response.userId);
+  
+        // Use response.role for your logic
+        const role = response.role;
+        console.log('Role:', role);
+  
+        if (role === 'admin') {
+          navigate('/AdminDashboard');
+        } else {
+          navigate('/AddForm');
+        }
       } else {
         toast.error(response.msg);
       }
@@ -30,7 +41,7 @@ const Login = () => {
       console.error('Error:', error);
     }
   };
-
+  
   return (
     <div style={{
       maxWidth: '400px',
@@ -51,13 +62,13 @@ const Login = () => {
         <div style={{
           marginBottom: '15px'
         }}>
-          <label htmlFor="username" style={{fontWeight: 'bold'}}>Username</label>
+          <label htmlFor="email" style={{fontWeight: 'bold'}}>Email</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             style={{
               padding: '10px',

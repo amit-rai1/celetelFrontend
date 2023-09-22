@@ -21,13 +21,21 @@ function AddForm() {
 
     const [userData, setUserData] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-
     useEffect(() => {
+        const userId = localStorage.getItem('userId');
+
+        if (!userId) {
+            console.error('userId not found in local storage');
+            return;
+        }
+
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:9800/userInfo/getUserData');
+                const response = await axios.get(`http://localhost:9800/userInfo/getUserDataByUserId?id=${userId}`);
                 if (response.data.success) {
                     setUserData(response.data.data);
+
+                    console.log(response.data.data, "data")
                 } else {
                     console.error('Failed to fetch data');
                 }
@@ -38,6 +46,12 @@ function AddForm() {
 
         fetchData();
     }, []);
+
+
+
+
+
+
     useEffect(() => {
         const handleKeyPress = (event) => {
             const { key } = event;
@@ -146,9 +160,9 @@ function AddForm() {
         if (copyButton) {
             copyButton.style.backgroundColor = 'green';
 
-            setTimeout(() => {
-                copyButton.style.backgroundColor = ''; // Reset to default color
-            }, 1000);
+            // setTimeout(() => {
+            //     copyButton.style.backgroundColor = ''; // Reset to default color
+            // }, 1000);
         }
     }
 
@@ -169,7 +183,7 @@ function AddForm() {
     }, []);
 
 
- const handleLogout = () => {
+    const handleLogout = () => {
         // Clear the token from local storage
         localStorage.removeItem('token');
 
@@ -190,24 +204,24 @@ function AddForm() {
                     <img src="images/Ellipse 1.png" alt="Profile Picture" />
                     <div>
                         <div className='ptext'>  <p>
-                            {userData[currentIndex]?.firstname} {userData[currentIndex]?.lastname}
+                            {userData[currentIndex]?.data[currentIndex]?.firstname} {userData[currentIndex]?.data[currentIndex]?.lastname}
                             <br />
                             <div id="current-time">Loading...</div>
                         </p></div>
-                      <div className='logout'>
-                         <button
-                            id="copyAddressButton"
-                            className="custom-button"
-                            onClick={handleLogout}
-                        >
-                            <span style={{ color: 'white' }}>logout</span>
-                            <img
-                                src="/images/logoutIcon.svg"
-                                alt="Logout"
-                                style={{ verticalAlign: 'middle' }}
-                            />
-                        </button></div>
-                       
+                        <div className='logout'>
+                            <button
+                                id="copyLogoutButton"
+                                className="custom-button"
+                                onClick={handleLogout}
+                            >
+                                <span style={{ color: 'white' }}>logout</span>
+                                <img
+                                    src="/images/logoutIcon.svg"
+                                    alt="Logout"
+                                    style={{ verticalAlign: 'middle' }}
+                                />
+                            </button></div>
+
                     </div>
                 </div>
             </header>
@@ -222,30 +236,33 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="firstName">First Name</label>
                         <div className="input-container">
-                            <input type="text" id="firstName"
-                                name="firstName"
-                                value={userData[currentIndex]?.firstname || ''}
-                                onChange={handleChange} />
-                            <button
-                                id="copyFirstNameButton"
-                                className="copy-button"
-                                onClick={() => copyToClipboard('firstName', 'copyFirstNameButton')}
-                            >
-                                <span style={{ color: 'white' }}>Copy</span>
-                                <img
-                                    src="/images/copy.svg"
-                                    alt="Copy"
-                                    style={{ verticalAlign: 'middle' }}
-                                />
-                            </button>
+                            <div className="row-4">
+                                {/* <div className="col-12">                            */}
+                                <input type="text" id="firstName"
+                                    name="firstName"
+                                    value={userData[currentIndex]?.data[currentIndex]?.firstname || ''}
+                                    onChange={handleChange} />
+                                <button
+                                    id="copyFirstNameButton"
+                                    className="copy-button"
+                                    onClick={() => copyToClipboard('firstName', 'copyFirstNameButton')}
+                                >
+                                    <span style={{ color: 'white' }}>Copy</span>
+                                    <img
+                                        src="/images/copy.svg"
+                                        alt="Copy"
+                                        style={{ verticalAlign: 'middle' }}
+                                    />
+                                </button>
+                            </div>
+                            {/* </div> */}
                         </div>
-
                     </div>
                     <div className="form-group">
                         <label htmlFor="lastName">Last Name</label>
                         <input type="text" id="lastName"
                             name="lastName"
-                            value={userData[currentIndex]?.lastname || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.lastname || ''}
                             onChange={handleChange}
                         />
                         <button
@@ -265,7 +282,7 @@ function AddForm() {
                         <label htmlFor="email">Email ID</label>
                         <input type="text" id="email"
                             name="email"
-                            value={userData[currentIndex]?.Email || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.Email || ''}
                             onChange={handleChange} />
                         <button
                             id="copyEmailButton"
@@ -285,7 +302,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="zip">Zip</label>
                         <input type="text" id="zip"
-                            value={userData[currentIndex]?.Zip || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.Zip || ''}
                             onChange={handleChange} />
                         <button
                             id="copyZipButton"
@@ -303,7 +320,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="address">Address</label>
                         <input type="text" id="address"
-                            value={userData[currentIndex]?.Address || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.Address || ''}
                             onChange={handleChange} />
                         <button
                             id="copyAddressButton"
@@ -321,7 +338,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="city">City</label>
                         <input type="text" id="city"
-                            value={userData[currentIndex]?.City || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.City || ''}
                             onChange={handleChange} />
                         <button
                             id="copyCityButton"
@@ -341,7 +358,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="state">State</label>
                         <input type="text" id="state"
-                            value={userData[currentIndex]?.State || ''}
+                            value={userData[currentIndex]?.data[currentIndex]?.State || ''}
                             onChange={handleChange} />
                         <button
                             id="copyStateButton"
@@ -359,7 +376,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="phone">Phone</label>
                         <input type="text" id="phone"
-                            value={userData[currentIndex]?.Homephone}
+                            value={userData[currentIndex]?.data[currentIndex]?.Homephone}
                             onChange={handleChange} />
                         <button
                             id="copyPhoneButton"
@@ -377,7 +394,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="dob">Date of Birth</label>
                         <input type="text" id="dob"
-                            value={userData[currentIndex]?.Dateofbirth}
+                            value={userData[currentIndex]?.data[currentIndex]?.Dateofbirth}
 
                             onChange={handleChange} />
                         <button
