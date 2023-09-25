@@ -113,13 +113,16 @@ function AddForm() {
             document.removeEventListener('keydown', handleKeyPress);
         }
     }, []);
-
     const loadNextUserData = () => {
         if (currentIndex < userData.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
             setCurrentIndex(0);
         }
+    
+        setTimeout(() => {
+            console.log("New Index:", currentIndex);
+        }, 0);
     };
     const loadPreviousUserData = () => {
         if (currentIndex > 0) {

@@ -1,9 +1,25 @@
 import React from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
+
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('token');
+
+    // Display a toast
+    toast.success('Logged out successfully!');
+
+    // Navigate to the login page
+    navigate('/');
+  };
   const wrapperStyle = {
     display: 'flex',
     position: 'relative',
@@ -63,7 +79,7 @@ function Sidebar() {
         <ul>
           <li className='navigation-link' style={sidebarItemStyle}>
             <i className="material-icons" style={sidebarIconStyle}>dashboard</i>
-            <a href='#' style={sidebarLinkStyle}>Dashboard</a>
+            <Link to='/AdminDashboard' style={sidebarLinkStyle}>Dashboard</Link>
           </li>
           <li className='navigation-link' style={sidebarItemStyle}>
             <i className="material-icons" style={sidebarIconStyle}>show_chart</i>
@@ -81,15 +97,39 @@ function Sidebar() {
             <i className="material-icons" style={sidebarIconStyle}>insert_chart</i>
             <Link to='/dataList' style={sidebarLinkStyle}>Data</Link>
           </li>
-          <li className='navigation-link' style={sidebarItemStyle}>
+          {/* <li className='navigation-link' style={sidebarItemStyle}>
             <i className="material-icons" style={sidebarIconStyle}>headset_mic</i>
             <a href='#' style={sidebarLinkStyle}>Support</a>
-          </li>
+          </li> */}
           <li className='navigation-link' style={sidebarItemStyle}>
             <i className="material-icons" style={sidebarIconStyle}>settings</i>
             <a href='#' style={sidebarLinkStyle}>Settings</a>
           </li>
         </ul>
+        <ul style={{ position: 'absolute', bottom: '70px', width: '100%', listStyleType: 'none', padding: '0' }}>
+      <li className='navigation-link' style={{ marginBottom: '10px', textAlign: 'center' }}>
+        <button
+          style={{
+            background: '#008000',
+            borderRadius: '6px',
+            color: '#fff',
+            padding: '8px 12px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '10px',
+            fontWeight: 'bold',
+          }}
+          onClick={handleLogout}
+        >
+          <span style={{ color: 'white', marginRight: '4px' }}>Logout</span>
+          <img
+            src="/images/logoutIcon.svg"
+            alt="Logout"
+            style={{ verticalAlign: 'middle' }}
+          />
+        </button>
+      </li>
+    </ul>
       </div>
 
     </div>
