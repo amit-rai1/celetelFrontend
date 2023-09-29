@@ -31,7 +31,8 @@ function AddForm() {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:9800/userInfo/getUserDataByUserId?id=${userId}`);
+                // const response = await axios.get(`http://localhost:9800/userInfo/getUserDataByUserId?id=${userId}`);
+                const response = await axios.get(`https://ibizoserver.onrender.com/userInfo/getUserDataByUserId?id=${userId}`);
                 if (response.data.success) {
                     setUserData(response.data.data);
 

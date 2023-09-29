@@ -24,7 +24,9 @@ const DataList = () => {
   useEffect(() => {
     // Fetch user list from your API
     axios
-      .get("http://localhost:9800/api/user/getUserList")
+      // .get("http://localhost:9800/api/user/getUserList")
+      .get("https://ibizoserver.onrender.com/api/user/getUserList")
+
       .then((response) => {
         setUserList(response.data.data);
       })
@@ -60,7 +62,9 @@ const DataList = () => {
     };
 
     axios
-      .post("http://localhost:9800/userInfo/getDistributedData", requestData)
+      // .post("http://localhost:9800/userInfo/getDistributedData", requestData)
+      .post("https://ibizoserver.onrender.com/userInfo/getDistributedData", requestData)
+
       .then((response) => {
         const {
           entriesPerUser,
@@ -98,7 +102,8 @@ const DataList = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await axios.post('http://localhost:9800/userInfo/importUser', formData, {
+      // const response = await axios.post('http://localhost:9800/userInfo/importUser', formData, {
+        const response = await axios.post('https://ibizoserver.onrender.com/userInfo/importUser', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -128,7 +133,9 @@ const DataList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:9800/userInfo/getUserData');
+      // const response = await axios.get('http://localhost:9800/userInfo/getUserData');
+      const response = await axios.get('https://ibizoserver.onrender.com/userInfo/getUserData');
+
       if (response.data.success) {
         setUserData(response.data.data);
       } else {
@@ -141,7 +148,9 @@ const DataList = () => {
 
   const fetchDataInfo = async () => {
     try {
-      const response = await axios.get('http://localhost:9800/userInfo/getUserDataDistributed');
+      // const response = await axios.get('http://localhost:9800/userInfo/getUserDataDistributed');
+      const response = await axios.get('https://ibizoserver.onrender.com/userInfo/getUserDataDistributed');
+
       if (response.data.success) {
         setInfo(response.data.data);
         console.log(response.data.data, "setginfoss")
