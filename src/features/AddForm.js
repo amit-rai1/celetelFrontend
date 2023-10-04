@@ -5,6 +5,7 @@ import './AddForm.css';
 
 import axios from 'axios'; // Import Axios
 import moment from 'moment';
+import { API_BASEURL } from '../environment';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,11 +33,13 @@ function AddForm() {
         const fetchData = async () => {
             try {
                 // const response = await axios.get(`http://localhost:9800/userInfo/getUserDataByUserId?id=${userId}`);
-                const response = await axios.get(`https://ibizoserver.onrender.com/userInfo/getUserDataByUserId?id=${userId}`);
+                const response = await axios.get(`${API_BASEURL}/userInfo/getUserDataByUserId?id=${userId}`);
                 if (response.data.success) {
                     setUserData(response.data.data);
 
-                    console.log(response.data.data, "data")
+                    console.log(response.data.data.length, "data")
+
+                    console.log(userData,"userdata")
                 } else {
                     console.error('Failed to fetch data');
                 }
@@ -115,11 +118,13 @@ function AddForm() {
         }
     }, []);
     const loadNextUserData = () => {
-        if (currentIndex < userData.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        } else {
-            setCurrentIndex(0);
-        }
+        setCurrentIndex(prevIndex => {
+            if (prevIndex < userData[0]?.data.length - 1) {
+                return prevIndex + 1;
+            } else {
+                return 0;
+            }
+        });
     
         setTimeout(() => {
             console.log("New Index:", currentIndex);
@@ -208,7 +213,7 @@ function AddForm() {
                     <img src="images/Ellipse 1.png" alt="Profile Picture" />
                     <div>
                         <div className='ptext'>  <p>
-                            {userData[currentIndex]?.data[currentIndex]?.firstname} {userData[currentIndex]?.data[currentIndex]?.lastname}
+                            {userData[0]?.data[currentIndex]?.firstname} {userData[0]?.data[currentIndex]?.lastname}
                             <br />
                             <div id="current-time">Loading...</div>
                         </p></div>
@@ -244,7 +249,7 @@ function AddForm() {
                                 {/* <div className="col-12">                            */}
                                 <input type="text" id="firstName"
                                     name="firstName"
-                                    value={userData[currentIndex]?.data[currentIndex]?.firstname || ''}
+                                    value={userData[0]?.data[currentIndex]?.firstname || ''}
                                     onChange={handleChange} />
                                 <button
                                     id="copyFirstNameButton"
@@ -266,7 +271,7 @@ function AddForm() {
                         <label htmlFor="lastName">Last Name</label>
                         <input type="text" id="lastName"
                             name="lastName"
-                            value={userData[currentIndex]?.data[currentIndex]?.lastname || ''}
+                            value={userData[0]?.data[currentIndex]?.lastname || ''}
                             onChange={handleChange}
                         />
                         <button
@@ -286,7 +291,7 @@ function AddForm() {
                         <label htmlFor="email">Email ID</label>
                         <input type="text" id="email"
                             name="email"
-                            value={userData[currentIndex]?.data[currentIndex]?.Email || ''}
+                            value={userData[0]?.data[currentIndex]?.Email || ''}
                             onChange={handleChange} />
                         <button
                             id="copyEmailButton"
@@ -306,7 +311,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="zip">Zip</label>
                         <input type="text" id="zip"
-                            value={userData[currentIndex]?.data[currentIndex]?.Zip || ''}
+                            value={userData[0]?.data[currentIndex]?.Zip || ''}
                             onChange={handleChange} />
                         <button
                             id="copyZipButton"
@@ -324,7 +329,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="address">Address</label>
                         <input type="text" id="address"
-                            value={userData[currentIndex]?.data[currentIndex]?.Address || ''}
+                            value={userData[0]?.data[currentIndex]?.Address || ''}
                             onChange={handleChange} />
                         <button
                             id="copyAddressButton"
@@ -342,7 +347,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="city">City</label>
                         <input type="text" id="city"
-                            value={userData[currentIndex]?.data[currentIndex]?.City || ''}
+                            value={userData[0]?.data[currentIndex]?.City || ''}
                             onChange={handleChange} />
                         <button
                             id="copyCityButton"
@@ -362,7 +367,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="state">State</label>
                         <input type="text" id="state"
-                            value={userData[currentIndex]?.data[currentIndex]?.State || ''}
+                            value={userData[0]?.data[currentIndex]?.State || ''}
                             onChange={handleChange} />
                         <button
                             id="copyStateButton"
@@ -380,7 +385,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="phone">Phone</label>
                         <input type="text" id="phone"
-                            value={userData[currentIndex]?.data[currentIndex]?.Homephone}
+                            value={userData[0]?.data[currentIndex]?.Homephone}
                             onChange={handleChange} />
                         <button
                             id="copyPhoneButton"
@@ -398,7 +403,7 @@ function AddForm() {
                     <div className="form-group">
                         <label htmlFor="dob">Date of Birth</label>
                         <input type="text" id="dob"
-                            value={userData[currentIndex]?.data[currentIndex]?.Dateofbirth}
+                            value={userData[0]?.data[currentIndex]?.Dateofbirth}
 
                             onChange={handleChange} />
                         <button

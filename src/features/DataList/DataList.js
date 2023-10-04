@@ -6,8 +6,14 @@ import Sidebar from '../Common/Sidebar';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import FileUploadModal from '../FileUploadModal';
+import { API_BASEURL } from '../../environment';
+
 
 const DataList = () => {
+
+
+
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [userData, setUserData] = useState([]);
   const [info, setInfo] = useState([]);
@@ -19,13 +25,27 @@ const DataList = () => {
   const [entriesPerUser, setEntriesPerUser] = useState(0);
   const [distributedData, setDistributedData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  }
+
+
+  const handleUploadClick = () => {
+    fileInput.current.click();
+  };
 
   const fileInput = useRef(null);
   useEffect(() => {
     // Fetch user list from your API
     axios
-      // .get("http://localhost:9800/api/user/getUserList")
-      .get("https://ibizoserver.onrender.com/api/user/getUserList")
+      .get(`${API_BASEURL}/api/user/getUserList`)
 
       .then((response) => {
         setUserList(response.data.data);
@@ -62,8 +82,7 @@ const DataList = () => {
     };
 
     axios
-      // .post("http://localhost:9800/userInfo/getDistributedData", requestData)
-      .post("https://ibizoserver.onrender.com/userInfo/getDistributedData", requestData)
+      .post(`${API_BASEURL}/userInfo/getDistributedData`, requestData)
 
       .then((response) => {
         const {
@@ -76,6 +95,8 @@ const DataList = () => {
         setEntriesPerUser(entriesPerUser);
         setDistributedData(distributedData);
 
+        fetchDataInfo();
+      
         console.log("Used Data:", usedData);
         console.log("Unused Data:", unusedData);
 
@@ -102,8 +123,7 @@ const DataList = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      // const response = await axios.post('http://localhost:9800/userInfo/importUser', formData, {
-        const response = await axios.post('https://ibizoserver.onrender.com/userInfo/importUser', formData, {
+      const response = await axios.post(`${API_BASEURL}/userInfo/importUser`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -133,8 +153,7 @@ const DataList = () => {
 
   const fetchData = async () => {
     try {
-      // const response = await axios.get('http://localhost:9800/userInfo/getUserData');
-      const response = await axios.get('https://ibizoserver.onrender.com/userInfo/getUserData');
+      const response = await axios.get(`${API_BASEURL}/userInfo/getUserData`);
 
       if (response.data.success) {
         setUserData(response.data.data);
@@ -148,8 +167,7 @@ const DataList = () => {
 
   const fetchDataInfo = async () => {
     try {
-      // const response = await axios.get('http://localhost:9800/userInfo/getUserDataDistributed');
-      const response = await axios.get('https://ibizoserver.onrender.com/userInfo/getUserDataDistributed');
+      const response = await axios.get(`${API_BASEURL}/userInfo/getUserDataDistributed`);
 
       if (response.data.success) {
         setInfo(response.data.data);
@@ -161,8 +179,6 @@ const DataList = () => {
       console.error('Error:', error);
     }
   };
-
-  
 
   const handleCheckboxClick = (index) => {
     const updatedSelection = [...selectedCheckboxes];
@@ -296,8 +312,7 @@ const DataList = () => {
                     boxSizing: 'border-box',
                   }}
                   className="add-new"
-                  onClick={() => fileInput.current.click()} // Open file dialog
-                >
+                  onClick={handleOpenModal}  >
                   <img
                     src="/images/fi_plus.svg"
                     alt="Copy"
@@ -313,6 +328,12 @@ const DataList = () => {
                   />
                   Add data
                 </button>
+                {modalOpen && (
+                  <FileUploadModal
+                    handleClose={handleCloseModal}
+                  />
+                )}
+
                 <button
                   style={{
                     boxSizing: 'border-box',
@@ -407,8 +428,8 @@ const DataList = () => {
                     <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>{user?.filename}</td>
                     <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>{1}</td>
                     <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>100</td>
-                    <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>{user.usedData || 'N/A'}</td>
-                    <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>{user.unusedData || 'N/A'}</td>
+                    <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>  {user?.usedData}</td>
+                    <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>  {user?.unusedData}</td>
                     <td style={{ border: 'none', padding: '0.8rem', textAlign: 'center' }}>
                       <a href="#" onClick={handleSplitDataClick} style={{ color: '#0da000', textAlign: 'left', fontSize: '16px', fontFamily: 'Poppins, sans-serif', position: 'relative' }}>
                         split Data

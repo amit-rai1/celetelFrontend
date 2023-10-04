@@ -1,63 +1,115 @@
 import React from 'react';
 
-const FileUploadModal = ({ isOpen, onClose, onUpload }) => {
+import { useState } from 'react';
+import axios from 'axios';
+import { API_BASEURL } from '../environment';
+// import { createUser } from './Service/auth.service';
+const FileUploadModal = ({ handleClose, handleFileUpload,handleUploadClick  }) => {
+  const popupStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '30px',
+    backgroundColor: '#fff',
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+    borderRadius: '12px',
+    maxWidth: '600px',
+    width: '100%',
+    textAlign: 'center',
+  };
+
+  const closeButtonStyle = {
+    padding: '10px 20px',
+    background: '#dc3545',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    margin: '0 10px',
+    fontSize: '16px',
+  };
+
+  const uploadButtonStyle = {
+    padding: '10px 20px',
+    background: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    margin: '0 10px',
+    fontSize: '16px',
+  };
+
+  const inputStyle = {
+    marginBottom: '20px',
+    padding: '12px',
+    border: '2px solid #ccc',
+    borderRadius: '8px',
+    fontSize: '16px',
+    width: '100%',
+    boxSizing: 'border-box',
+  };
+
+  const buttonContainerStyle = {
+    marginTop: '20px',
+  };
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (!file) {
+        alert('Please select a file'); // You can replace this with your desired way of showing messages
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${API_BASEURL}/userInfo/importUser`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data.success) {
+        alert(response.data.msg); 
+        handleClose(); 
+      } else {
+        alert(response.data.msg); 
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error uploading file'); 
+    }
+  };
+
   return (
-    <div style={{ display: isOpen ? 'flex' : 'none' }} className="file-upload-modal">
-      <div style={modalContentStyle} className="modal-content">
-        <h2>Upload Files</h2>
-        <input
-          type="file"
-          accept=".xlsx, .xls"
-          onChange={onUpload}
-          style={fileInputStyle}
-        />
-        <button style={uploadButtonStyle} onClick={onUpload}>Upload</button>
-        <button style={closeButtonStyle} onClick={onClose}>Close</button>
+<div style={popupStyle}>
+      <h2 style={{ marginBottom: '30px', color: '#343a40' }}>Upload Excel File</h2>
+      <input
+        type="file"
+        accept=".xlsx"
+        onChange={handleFileChange}
+        style={inputStyle}
+      />
+      <div style={buttonContainerStyle}>
+        <button onClick={handleUpload} style={uploadButtonStyle}>
+          Upload
+        </button>
+        <button onClick={handleClose} style={closeButtonStyle}>
+          Close
+        </button>
       </div>
     </div>
+
   );
-};
-
-const modalContentStyle = {
-  background: '#ffffff',
-  borderRadius: '10px',
-  padding: '28px 34px 28px 34px',
-  width: '912px',
-  height: '868px',
-  position: 'relative',
-  overflow: 'hidden',
-};
-
-const fileInputStyle = {
-  display: 'block',
-  marginBottom: '1rem',
-  fontSize: '1rem',
-  padding: '0.5rem',
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-  width: '100%',
-  boxSizing: 'border-box',
-};
-
-const uploadButtonStyle = {
-  background: '#2e2e2e',
-  borderRadius: '12px',
-  padding: '8px 10px',
-  color: '#ffffff',
-  fontSize: '16px',
-  textAlign: 'center',
-  boxSizing: 'border-box',
-  marginBottom: '1rem',
-};
-
-const closeButtonStyle = {
-  background: '#2e2e2e',
-  borderRadius: '12px',
-  padding: '8px 10px',
-  color: '#ffffff',
-  fontSize: '16px',
-  textAlign: 'center',
-  boxSizing: 'border-box',
+  
 };
 
 export default FileUploadModal;

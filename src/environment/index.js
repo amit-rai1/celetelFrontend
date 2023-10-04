@@ -3,20 +3,20 @@
 const local = {
   apiUrl: "http://localhost:",
   encryptionkey: "",
-  PORT: '2526',
-  API_BASEURL: "http://localhost:2526",
-  SOCKET_URL: "ws://localhost:2526"
+  PORT: '9800/api',
+  API_BASEURL: "http://localhost:9800",
+  SOCKET_URL: "ws://localhost:9800"
 };
 
 // For Staging server --  
 
-// const staging = {
-//   apiUrl: "http://54.201.160.69:",
-//   encryptionkey: "",
-//   PORT: '9162/api',
-//   API_BASEURL: "http://54.201.160.69:9162",
-//   SOCKET_URL: "ws://54.201.160.69:9162"
-// };
+const staging = {
+  apiUrl: "https://ibizoserver.onrender.com",
+  encryptionkey: "",
+  PORT: '9800/api',
+  API_BASEURL: "https://ibizoserver.onrender.com",
+  SOCKET_URL: "ws://https://ibizoserver.onrender.com"
+};
 
 // 54.201.160.69:9162
 // const staging = {
@@ -42,16 +42,16 @@ console.log("process.env.REACT_APP_ENV :", process.env.REACT_APP_ENV);
 
 if (process.env.REACT_APP_ENV === "local") module.exports = local;
 // else if (process.env.REACT_APP_ENV === "dev") module.exports = dev;
-// else if (process.env.REACT_APP_ENV === "staging") module.exports = staging;
+else if (process.env.REACT_APP_ENV === "staging") module.exports = staging;
 
 
 
 
-// else module.exports = staging;
+else module.exports = staging;
 
 // else module.exports = dev;
 
-else module.exports = local;
+// else module.exports = local;
 
 
 

@@ -1,10 +1,10 @@
 
 import axios from 'axios';
-
+import { API_BASEURL } from '../../environment';
 export const loginAuth = async (email, password) => {
   try {
-    // const response = await axios.post('http://localhost:9800/api/admin/authLogin', { email, password });
-    const response = await axios.post('https://ibizoserver.onrender.com/api/admin/authLogin', { email, password });
+    const response = await axios.post(`${API_BASEURL}/api/admin/authLogin`, { email, password });
+    // const response = await axios.post('https://ibizoserver.onrender.com/api/admin/authLogin', { email, password });
 
     console.log(response,"res")
     return response.data;
@@ -15,7 +15,7 @@ export const loginAuth = async (email, password) => {
 
  export const createUser = async (userData) => {
   try {
-    const response = await axios.post('https://ibizoserver.onrender.com/api/user/createUser', userData);
+    const response = await axios.post(`${API_BASEURL}/api/user/createUser`, userData);
     console.log("response",response.data)
     return response.data;
   } catch (error) {
@@ -26,7 +26,7 @@ export const loginAuth = async (email, password) => {
 // Create a file named apiService.js
 
 const getUserList = (searchTerm) => {
-  let url = 'https://ibizoserver.onrender.com/api/user/getUserList';
+  let url = `${API_BASEURL}/api/user/getUserList`;
   if (searchTerm) {
     url += `?name=${searchTerm}`;
   }
@@ -55,7 +55,7 @@ export default getUserList;
 
 export const deleteUser = async (ids) => {
   try {
-    const response = await axios.post(`https://ibizoserver.onrender.com/api/user/deleteUsers`, { ids });
+    const response = await axios.post(`${API_BASEURL}/api/user/deleteUsers`, { ids });
     console.log(response.data,"API service res")
 
     return response.data; // Make sure you return response.data
