@@ -1,13 +1,12 @@
 
 import axios from 'axios';
 import { API_BASEURL } from '../../environment';
-export const loginAuth = async (email, password) => {
+export const loginAuth = async (username, password) => {
   try {
-    const response = await axios.post(`${API_BASEURL}/api/admin/authLogin`, { email, password });
-    // const response = await axios.post('https://ibizoserver.onrender.com/api/admin/authLogin', { email, password });
+    const response = await axios.post(`${API_BASEURL}/api/admin/authLogin`, {username, password });
 
     console.log(response,"res")
-    return response.data;
+    return response;
   } catch (error) {
     throw error;
   }
@@ -61,5 +60,28 @@ export const deleteUser = async (ids) => {
     return response.data; // Make sure you return response.data
   } catch (error) {
     throw error;
+  }
+};
+
+
+
+export const getAllData = async () => {
+  try {
+    const response = await axios.get('http://localhost:7600/api/addData/getAllData'); // Assuming the API endpoint is at /api/addData/getAllData
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching data');
+  }
+};
+
+
+export const addSimData = async (simData) => {
+  try {
+    const response = await axios.post(`${API_BASEURL}/api/addData/addData`, simData);
+    console.log(response,"response81")
+    return response.data;
+  } catch (error) {
+
+    throw new Error('Error adding sim data');
   }
 };

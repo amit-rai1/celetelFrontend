@@ -1,120 +1,89 @@
+// src/components/Login.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
-import { loginAdmin, loginAuth } from './Service/auth.service';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
+import './Login.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loginAuth } from './Service/auth.service';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await loginAuth(email, password);
-  
-      if (response.status === 200 && response.success) {
-        toast.success(response.msg);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('userId',response.userId);
-  
-        // Use response.role for your logic
-        const role = response.role;
-        console.log('Role:', role);
-  
+      const response = await loginAuth(username, password);
+      console.log(response, "res")
+
+      const { status, success, msg, role, userId, token } = response.data;
+
+      if (status === 200 && success) {
+        toast.success(msg);
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);
+
         if (role === 'admin') {
-          navigate('/AdminDashboard');
+          // alert("Welcome to admin dashboard");
+          navigate('/adminDashoard'); // Navigate to admin dashboard
+
         } else {
-          navigate('/AddForm');
+          alert("Welcome to client dashboard");
         }
       } else {
-        toast.error(response.msg);
+        toast.error(msg);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  
+
   return (
-    <div style={{
-      maxWidth: '400px',
-      margin: '0 auto',
-      padding: '20px',
-      backgroundColor: '#fff',
-      borderRadius: '8px',
-      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)'
-    }}>
-      <form style={{
-        display: 'flex',
-        flexDirection: 'column'
-      }} onSubmit={handleLogin}>
-        <h2 style={{
-          textAlign: 'center',
-          marginBottom: '20px'
-        }}>Login</h2>
-        <div style={{
-          marginBottom: '15px'
-        }}>
-          <label htmlFor="email" style={{fontWeight: 'bold'}}>Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxSizing: 'border-box',
-              width: '100%',
-              fontSize: '16px',
-              marginTop: '5px'
-            }}
-          />
+    <div className="container-fluid">
+      <div className="col-5">
+        <div className="row">
+          <img className="name" src="\images\loginimage.webp" alt="" width="100px" height="100px" />
+          <div className="col-5">
+            <form onSubmit={handleLogin}>
+              <div className="imgcontainer">
+                <img src="\images\celetellogo.jpg" alt="" width="100px" height="70px" />
+              </div>
+
+              <div className="container">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  placeholder="john_doe"
+                  name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="container">
+                <label htmlFor="psw">Password</label>
+                <input
+                  type="password"
+                  placeholder="***********"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="container">
+                <span className="psw"><a href="#">Forget password</a></span>
+              </div>
+              <button type="submit" className="btn-btn">Login</button>
+            </form>
+          </div>
         </div>
-        <div style={{
-          marginBottom: '15px'
-        }}>
-          <label htmlFor="password" style={{fontWeight: 'bold'}}>Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxSizing: 'border-box',
-              width: '100%',
-              fontSize: '16px',
-              marginTop: '5px'
-            }}
-          />
-        </div>
-        <button type="submit" style={{
-          padding: '10px',
-          backgroundColor: '#007bff',
-          border: 'none',
-          borderRadius: '4px',
-          color: '#fff',
-          fontSize: '16px',
-          cursor: 'pointer',
-          width: '100%',
-          marginTop: '10px'
-        }}>Login</button>
-      </form>
+      </div>
     </div>
   );
 };
