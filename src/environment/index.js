@@ -14,7 +14,7 @@ const staging = {
   apiUrl: "",
   encryptionkey: "",
   PORT: '7600/api',
-  API_BASEURL: "",
+  API_BASEURL: "https://celetelportal-nifq.onrender.com/",
   SOCKET_URL: ""
 };
 
@@ -47,11 +47,11 @@ else if (process.env.REACT_APP_ENV === "staging") module.exports = staging;
 
 
 
-// else module.exports = staging;
+else module.exports = staging;
 
 // else module.exports = dev;
 
-else module.exports = local;
+// else module.exports = local;
 
 
 
