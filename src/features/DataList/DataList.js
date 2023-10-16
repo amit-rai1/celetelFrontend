@@ -1,7 +1,7 @@
 // DataList.js
 
 import React, { useState, useEffect, useRef } from 'react';
-import Header from '../Common/HeaderAdmin';
+import Header from '../Common/Navbar';
 import Sidebar from '../Common/Sidebar';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

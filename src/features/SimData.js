@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { addSimData } from './Service/auth.service';
+import { addSimData,getAllData } from './Service/auth.service';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,27 +11,47 @@ const SimDataForm = () => {
         SIM_Number: '',
         // IMSI_Number: '',
         Circle: '',
+        Operators:"",
         Status: 'active'
     });
-
+const [data , setData]= useState([]);
     const [selectedCircle, setSelectedCircle] = useState(""); // Initialize with an empty string or the default value you prefer
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSimData({ ...simData, [name]: value });
     };
-
+    useEffect(() => {
+        // Fetch user list when the component mounts
+        getAllData()
+            .then(response => {
+                setData(response.data);
+                console.log(response.data, "res52");
+            })
+            .catch(error => {
+                console.error('Error fetching user list:', error);
+            });
+    }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await addSimData(simData);
             console.log(response); // Handle the response as needed
             toast.success('Data added successfully!');
+            console.log("Before setData");
+            getAllData()
+                .then(response => {
+                    setData(response.data);
+                    console.log(response.data);
+                    console.log("After setData");
+                })
         } catch (error) {
             console.error(error.message);
             toast.error('An error occurred while adding data.');
         }
     };
+    
+    
     const handleCircleChange = (e) => {
         const selectedValue = e.target.value;
         setSimData({ ...simData, Circle: selectedValue }); // Update the Circle property in simData
@@ -40,6 +60,7 @@ const SimDataForm = () => {
         const selectedValue = e.target.value;
         setSimData({ ...simData, Status: selectedValue });
     };
+    
     return (
         <div className="container" style={containerStyle}>
 
@@ -63,6 +84,17 @@ const SimDataForm = () => {
                     id="msidnNumber"
                     placeholder="MSDIN Number"
                     name="SIM_Number"
+                    onChange={handleChange} // Add this line
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="msidnNumber" className="form-label">Operator</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="Operators"
+                    placeholder="Operators"
+                    name="Operators"
                     onChange={handleChange} // Add this line
                 />
             </div>
@@ -120,7 +152,7 @@ const SimDataForm = () => {
 };
 
 const containerStyle = {
-    width: '600px',
+    width: '400px',
     height: 'auto',
     marginTop: '50px',
     borderRadius: '10px',

@@ -1,0 +1,105 @@
+/* Navbar */
+.navbar {
+    background-color:#e9e4e0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .navbar-brand img {
+    margin-left: 15px;
+  }
+  
+  
+  .a {
+    background-color: black;
+    border-radius: 20px;
+    color: white;
+    margin-right: 50px;
+  }
+  
+  /* Sidebar */
+  .sidenav {
+    height: 100%;
+    width: 180px;
+    position: absolute;
+    top: 16%;
+    left: 0;
+    overflow: hidden;
+    padding-top: 0;
+  }
+  
+  .sidenav .bg-dark {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .sidenav a {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .sidenav a:hover {
+    background-color: #222;
+  }
+  
+  /* Main Content */
+  .main {
+    background-color: #faf7f5;
+    margin-left: 200px;
+    margin-top: 60px;
+    padding: 20px;
+  }
+  
+  .container {
+    margin-top: 20px;
+    column-gap: 10px;
+  }
+  
+  h2 {
+    margin-top: 40px;
+  }
+  
+  .col-md-3 {
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .col-md-3 a {
+    font-size: 24px;
+    text-decoration: none;
+    margin-top: 10px;
+    display: block;
+    color: #333;
+  }
+  
+  .col-md-3 a:hover {
+    color: #555;
+  }
+  
+  /* Table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #f0f0f0;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

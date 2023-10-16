@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import getUserList, { createUser } from '../Service/auth.service';
-import Header from '../Common/HeaderAdmin';
+import Header from '../Common/Navbar';
 import Sidebar from '../Common/Sidebar';
 import { deleteUser } from '../Service/auth.service';
 

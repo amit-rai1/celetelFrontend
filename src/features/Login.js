@@ -33,7 +33,7 @@ const Login = () => {
           navigate('/adminDashoard'); // Navigate to admin dashboard
 
         } else {
-          alert("Welcome to client dashboard");
+          navigate('/details');
         }
       } else {
         toast.error(msg);

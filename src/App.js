@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom"
 import Login from './features/Login';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import AdminDashboard from './features/Dashboard/adminDashboard';
+import HomeDashboard from './features/Dashboard/HomeDashboard';
 import Sidebar from './features/Common/Sidebar';
 import EmpList from './features/EmpList/EmployeList';
 // import DataList from './features/DataList/DataList';
@@ -13,7 +13,8 @@ import EmpList from './features/EmpList/EmployeList';
 import DataList from './features/DataList/DataList'
 import { OperatorDetail } from './features/SimDataList';
 import SimDataForm from './features/SimData';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import SenderIDComponent from './features/SenderIDComponent';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -25,17 +26,20 @@ function App() {
         <Routes>
         
 
-        <Route path="/" element={ <Login/> } />
+        <Route path="/login" element={ <Login/> } />
 
         {/* <Route path="/" element={ <AddForm/> } /> */}
                     {/* <Route path="/AddForm" element={ <AddForm/> } />  */}
-                     <Route path="/adminDashoard" element={ <AdminDashboard/> } /> 
+                     <Route path="/" element={ <HomeDashboard/> } /> 
                      <Route path="/details" element={ <OperatorDetail/> } />
                      <Route path="/addForm" element={ <SimDataForm/> } />
+
 
                     <Route path="/Sidebar" element={ <Sidebar/> } /> 
                     <Route path="/EmpList" element={ <EmpList/> } /> 
                     <Route path="/dataList" element={ <DataList/> } />  
+                    <Route path="/senderid" element={ <SenderIDComponent/> } />  
+
 
 
                     {/* <PrivateRoute path="/AddForm" element={<AddForm />} /> */}

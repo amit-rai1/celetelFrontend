@@ -5,8 +5,12 @@ import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
 import './index.css';
 // import axios from 'axios'; // Import axios at the top
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
