@@ -14,7 +14,7 @@ const staging = {
   apiUrl: "",
   encryptionkey: "",
   PORT: '7600/api',
-  API_BASEURL: "https://celetelportal-nifq.onrender.com/",
+  API_BASEURL: "https://celetelportal-nifq.onrender.com",
   SOCKET_URL: ""
 };
 
