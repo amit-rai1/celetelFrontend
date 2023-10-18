@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import { getAllData } from './Service/auth.service';
 import Navbar from './Common/Navbar';
-import Sidebar from './Common/Sidebar';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { deleteUser } from './Service/auth.service';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import SimDataModal from './Common/simModel';
-
+import { Sidebaradmin } from './Common/adminSidebar';
+import Sidebar from './Common/Sidebar';
 export const OperatorDetail = () => {
     const [data, setData] = useState([]);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -23,7 +22,11 @@ export const OperatorDetail = () => {
         setSelectedRow(index);
     };
 
-
+    function hashLastFiveDigits(simNumber) {
+        const lastFiveDigits = simNumber.slice(5);
+        const hashedLastFiveDigits = lastFiveDigits.replace(/\d/g, '*');
+        return simNumber.slice(0, 5) + hashedLastFiveDigits;
+      }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,22 +41,6 @@ export const OperatorDetail = () => {
         fetchData();
     }, []);
 
-    const handleDelete = async (id) => {
-        console.log(id,"id")
-        try {
-            const response = await deleteUser([id]); // Assuming deleteUser expects an array of ids
-            if (response.status === 200) {
-                toast.success('Data deleted successfully!');
-                const updatedData = data.filter(item => item._id !== id);
-                setData(updatedData);
-            } else {
-                throw new Error(response.message || 'Error deleting data');
-            }
-        } catch (error) {
-            console.error('Error deleting data:', error);
-            toast.error('Error deleting data. Please try again later.');
-        }
-    };
     
     const handleCloseModal = () => {
         setSelectedRow(null);
@@ -109,30 +96,13 @@ export const OperatorDetail = () => {
         borderBottom: '1px solid #ddd'
     };
 
-    const fileIconStyle = {
-        cursor: 'pointer',
-        color: 'black',
-        marginRight: '10px' // Add margin to the right of the file icon
-    };
-
-    const deleteIconStyle = {
-        cursor: 'pointer',
-        marginRight: '10px',
-        color: 'black'
-    };
-
-    const editIconStyle = {
-        cursor: 'pointer',
-        color: 'black',
-        marginRight: '10px' // Add margin to the right of the edit icon
-    };
+   
     return (
         <>
-            <Navbar />
-            <Sidebar />
+           <Navbar/>
+           <Sidebar/>
             <div style={containerStyle}>
                 {/* <h2 style={{ marginBottom: '', color: 'black', textAlign: 'center',margin: ' auto' }}>Operator Detail</h2> */}
-                <a href="#" style={buttonStyle}>Upload File</a>
                 <table style={tableStyle}>
                     {/* Table Header */}
                     <thead style={tableHeadStyle}>
@@ -145,7 +115,7 @@ export const OperatorDetail = () => {
                             <th style={thStyle}>Operator</th>
 
                             <th style={thStyle}>Status</th>
-                            <th style={thStyle}>Action</th>
+                            {/* <th style={thStyle}>Action</th> */}
                         </tr>
                     </thead>
                     {/* Table Body */}
@@ -155,18 +125,12 @@ export const OperatorDetail = () => {
                                 <td style={tdStyle}><input type="checkbox" className="checkbox" value={index + 1} /></td>
                                 <td style={tdStyle}>{index + 1}</td>
                                 <td style={tdStyle}>{item.MSISDN}</td>
-                                <td style={tdStyle}>{item.SIM_Number}</td>
+                                <td style={tdStyle}>{hashLastFiveDigits(item.SIM_Number)}</td>
                                 <td style={tdStyle}>{item.Circle}</td>
                                 <td style={tdStyle}>{item.Operators}</td>
 
                                 <td style={tdStyle}>{item.Status}</td>
-                                <td style={tdStyle}>
-                                    <i className="fa fa-plus" style={fileIconStyle} onClick={handleAddClick}></i>
-                                    <i className="fa fa-edit" style={editIconStyle}></i>
-                                    <i className="fa fa-trash" style={deleteIconStyle} onClick={() => handleDelete(item._id)}
-                                    ></i>
-
-                                </td>
+                              
 
                             </tr>
                         ))}

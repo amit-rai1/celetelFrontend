@@ -30,10 +30,10 @@ const Login = () => {
 
         if (role === 'admin') {
           // alert("Welcome to admin dashboard");
-          navigate('/adminDashoard'); // Navigate to admin dashboard
+          navigate('/adminDashboard'); // Navigate to admin dashboard
 
         } else {
-          navigate('/details');
+          navigate('/userdashboard/details');
         }
       } else {
         toast.error(msg);
@@ -49,6 +49,8 @@ const Login = () => {
         <div className="row">
           <img className="name" src="\images\loginimage.webp" alt="" width="100px" height="100px" />
           <div className="col-5">
+          <div className="form-container">
+
             <form onSubmit={handleLogin}>
               <div className="imgcontainer">
                 <img src="\images\celetellogo.jpg" alt="" width="100px" height="70px" />
@@ -64,8 +66,6 @@ const Login = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-              </div>
-              <div className="container">
                 <label htmlFor="psw">Password</label>
                 <input
                   type="password"
@@ -75,12 +75,11 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-              </div>
-              <div className="container">
                 <span className="psw"><a href="#">Forget password</a></span>
               </div>
               <button type="submit" className="btn-btn">Login</button>
             </form>
+            </div>
           </div>
         </div>
       </div>

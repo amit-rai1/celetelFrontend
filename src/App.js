@@ -8,7 +8,10 @@ import Sidebar from './features/Common/Sidebar';
 import { OperatorDetail } from './features/SimDataList';
 import SimDataForm from './features/SimData';
 import SenderIDComponent from './features/SenderIDComponent';
-
+import { AdminDashboard } from './features/Dashboard/adminDashboard';
+import { AdminList } from './features/Dashboard/adminSimList';
+import AdminSenderID from './features/Common/adminSendrID';
+import EditSimDataForm from './features/EditSimDataForm';
 
 
 function App() {
@@ -22,12 +25,21 @@ function App() {
         <Route path="/login" element={ <Login/> } />
 
                      <Route path="/" element={ <HomeDashboard/> } /> 
-                     <Route path="/details" element={ <OperatorDetail/> } />
+                     <Route path="/adminDashboard" element={ <AdminDashboard/> } /> 
+                     <Route path="/adminSimList" element={ <AdminList/> } /> 
+
+
+                     <Route path="/userdashboard/details" element={ <OperatorDetail/> } />
                      <Route path="/addForm" element={ <SimDataForm/> } />
+
+                     <Route path="/editForm" element={ <EditSimDataForm/> } />
 
 
                     <Route path="/Sidebar" element={ <Sidebar/> } /> 
+                    {/* <Route path="/Sidebaradmin" element={ <Sidebaradmin/> } />  */}
                     <Route path="/senderid" element={ <SenderIDComponent/> } />  
+                    <Route path="/admin/senderid" element={ <AdminSenderID/> } />  
+
 
 
 

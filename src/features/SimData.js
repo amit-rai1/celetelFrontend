@@ -12,7 +12,7 @@ const SimDataForm = () => {
         // IMSI_Number: '',
         Circle: '',
         Operators:"",
-        Status: 'active'
+        Status: 'Active'
     });
 const [data , setData]= useState([]);
     const [selectedCircle, setSelectedCircle] = useState(""); // Initialize with an empty string or the default value you prefer
@@ -118,8 +118,8 @@ const [data , setData]= useState([]);
                     type="radio"
                     name="Status" // Added name attribute
                     id="inlineRadio1"
-                    value="active"
-                    checked={simData.Status === 'active'} // Set checked if Status is 'Active'
+                    value="Active"
+                    checked={simData.Status === 'Active'} // Set checked if Status is 'Active'
                     onChange={handleChange} // Add onChange event handler
                 />
                 <label className="form-check-label" htmlFor="inlineRadio1">Active</label>
@@ -130,8 +130,8 @@ const [data , setData]= useState([]);
                     type="radio"
                     name="Status" // Added name attribute
                     id="inlineRadio2"
-                    value="inactive"
-                    checked={simData.Status === 'inactive'} // Set checked if Status is 'Inactive'
+                    value="Inactive"
+                    checked={simData.Status === 'Inactive'} // Set checked if Status is 'Inactive'
                     onChange={handleChange} // Add onChange event handler
                 />
                 <label className="form-check-label" htmlFor="inlineRadio2">Inactive</label>

@@ -10,31 +10,29 @@
       
     }
     
-      form { width: 44%;
+      form { width: 40%;
     border: px solid #eae4e4;
     position: absolute;
     top: 26%;
     left: 50%;
-    height: 450px ;
+    height: 400px ;
     background:white;
     border-radius: 10px;
     
   }
   
   /* Full-width inputs */
-  input[type=text], input[type=password] {
-    width: 90%;
-    padding: 12px 20px;
-    margin: 6px 0;
-    border: 3px hsl(0, 38%, 95%);
-    background-color: rgb(154, 183, 210);
-    
-    outline: height 1px;
-    border-radius: 15px;
-    
-  
-    
-  }
+  /* Full-width inputs */
+input[type=text], input[type=password] {
+  width: 90%;
+  padding: 12px 20px;
+  margin: 1px 0; /* Adjusted margin here */
+  border: 3px hsl(0, 38%, 95%);
+  background-color: rgb(154, 183, 210);
+  outline: height 1px;
+  border-radius: 15px;
+}
+
   
   /* Set a style for all buttons */
   button {
@@ -90,7 +88,7 @@
   .btn-btn{
     margin-left: 35%;
     background-color:rgb(12, 17, 17);
-    margin-top: 30px;
+    margin-top: 10px;
     border-radius: 30px;
   }
   .name{

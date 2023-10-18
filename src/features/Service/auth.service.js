@@ -98,7 +98,7 @@ export const addSimData = async (simData) => {
 
 export const updateData = async (id, data) => {
   try {
-    const response = await axios.put(`${API_BASEURL}/api/updateData/${id}`, data);
+    const response = await axios.put(`${API_BASEURL}/api/addData/updateData/${id}`, data);
     return response.data;
   } catch (error) {
     throw error;
@@ -128,6 +128,34 @@ export const getSenderId = async (page, limit) => {
     const response = await axios.get(`${API_BASEURL}/api/getSenderId`, {
       params: { page, limit }
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getDataById = async (id) => {
+  console.log(id, "id137"); // Log the ID
+  try {
+    const response = await axios.get(`${API_BASEURL}/api/addData/getDataById/${id}`);
+    console.log(response.data, "response data"); // Add this line
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+ export const uploadFile = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await axios.post(`${API_BASEURL}/api/addExcelData`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
     return response.data;
   } catch (error) {
     throw error;
