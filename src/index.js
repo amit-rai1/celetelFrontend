@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+// import { AuthProvider } from './AuthContext';
+
+// import { AuthProvider } from './features/AuthContext';
 
 import './index.css';
 // import axios from 'axios'; // Import axios at the top
@@ -23,7 +26,11 @@ if (process.env.NODE_ENV === 'production') {
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    {/* <AuthProvider> */}
+
       <App />
+      {/* </AuthProvider> */}
+
     </BrowserRouter>
   </React.StrictMode>
 );

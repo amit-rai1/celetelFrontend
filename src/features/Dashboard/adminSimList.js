@@ -5,6 +5,7 @@ import { getAllData, deleteUser, uploadFile } from '../Service/auth.service';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TablePagination from '@mui/material/TablePagination';
 
 import SimDataModal from '../Common/simModel';
 import Navbar from '../Common/Navbar';
@@ -13,20 +14,46 @@ import EditDataModal from '../Common/editModel';
 import EditSimDataForm from '../EditSimDataForm';
 
 import FileUploadModal from '../FileUploadModal';
-
+import ReactPaginate from 'react-paginate';
+// import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 export const AdminList = () => {
     const [data, setData] = useState([]);
+    const [totalRows, setTotalRows] = useState(0);
     const [selectedRow, setSelectedRow] = useState(null);
     const [selectedEditId, setSelectedEditId] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showFileUploadModal, setShowFileUploadModal] = useState(false); // Add state for file upload modal
 
-
+    const [circleFilter, setCircleFilter] = useState('');
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+    const [statusFilter, setStatusFilter] = useState('');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [stats, setStats] = useState(null);
 
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
+    // useEffect(() => {
+    //     if (!isLoggedIn) {
+    //         // Redirect to login page if not authenticated
+    //         navigate('/login'); // Use navigate to redirect
+    //     }
+    // }, [isLoggedIn, navigate]);
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const paginatedData = data.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+    console.log(paginatedData, "ap")
     // const [deletedIds, setDeletedIds] = useState([]);
 
 
@@ -38,6 +65,9 @@ export const AdminList = () => {
         setSelectedEditId(id);
         setShowModal(true);
     };
+
+
+
 
     const handleClose = () => {
         setSelectedEditId(null);
@@ -53,15 +83,25 @@ export const AdminList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getAllData();
+                const response = await getAllData({
+                    Circle: circleFilter,
+                    Status: statusFilter,
+                    page: page + 1, // Adjust page value
+                    limit: rowsPerPage, // Adjust limit based on rowsPerPage
+                });
+                console.log(response, "line80"); // Add this line
+
                 setData(response.data);
+                console.log(response.data, "data")
+                setTotalRows(response.totalItems); // Change this line
+                console.log(totalRows, "totalRows")
             } catch (error) {
                 console.error(error.message);
             }
         };
 
         fetchData();
-    }, []);
+    }, [circleFilter, statusFilter, page, rowsPerPage]);
 
     const handleDelete = async (id) => {
         console.log(id, "id")
@@ -93,20 +133,20 @@ export const AdminList = () => {
 
     const handleUpload = async (file) => {
         try {
-          const response = await uploadFile(file);
-    
-          if (response.success) {
-            alert(response.msg);
-            handleClose(); 
-            getAllData();
-          } else {
-            alert(response.msg);
-          }
+            const response = await uploadFile(file);
+
+            if (response.success) {
+                alert(response.msg);
+                handleClose();
+                getAllData();
+            } else {
+                alert(response.msg);
+            }
         } catch (error) {
-          console.error(error);
-          alert('Error uploading file');
+            console.error(error);
+            alert('Error uploading file');
         }
-      };
+    };
 
     const containerStyle = {
         backgroundColor: '#f5f5f5',
@@ -171,12 +211,57 @@ export const AdminList = () => {
     };
     console.log(selectedEditId);
 
+    console.log("page:", page);
+    console.log("rowsPerPage:", rowsPerPage);
+    console.log("totalRows:", totalRows);
 
     return (
         <>
             <Navbar />
             <Sidebaradmin />
+
+
             <div style={containerStyle}>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ marginRight: '10px' }}>
+                        <label>Filter Status:</label>
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            style={{
+                                marginLeft: '5px',
+                                padding: '5px',
+                                fontSize: '16px',
+                                borderRadius: '4px'
+                            }}
+                        >
+                            <option value="">All</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Filter Circle:</label>
+                        <select
+                            value={circleFilter}
+                            onChange={(e) => setCircleFilter(e.target.value)}
+                            style={{
+                                marginLeft: '5px',
+                                padding: '5px',
+                                fontSize: '16px',
+                                borderRadius: '4px'
+                            }}
+                        >
+                            <option value="">All</option>
+                            <option value="Uttar Pradesh West">Uttar Pradesh West</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        </select>
+                    </div>
+                </div>
+
                 {/* <h2 style={{ marginBottom: '', color: 'black', textAlign: 'center',margin: ' auto' }}>Operator Detail</h2> */}
                 <a href="#" style={buttonStyle} onClick={() => setShowFileUploadModal(true)}>Upload File</a>                <table style={tableStyle}>
                     {/* Table Header */}
@@ -235,6 +320,38 @@ export const AdminList = () => {
                     handleFileUpload={handleUpload} // Assuming you have a function for handling file uploads
                 />
             )}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                <TablePagination
+                    component="div"
+                    count={totalRows}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    style={{
+                        backgroundColor: 'white', // Background color
+                        borderRadius: '5px', // Border radius
+                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Box shadow
+                    }}
+                    backIconButtonProps={{
+                        style: {
+                            color: 'black', // Color of the back button
+                        },
+                    }}
+                    nextIconButtonProps={{
+                        style: {
+                            color: 'black', // Color of the next button
+                        },
+                    }}
+                    labelRowsPerPage={<span style={{ color: 'black' }}>Rows per page</span>} // Label style
+                    rowsPerPageOptions={[10, 25, 50, 100]} // Dropdown options style
+                    SelectProps={{
+                        style: {
+                            color: 'black', // Color of the dropdown arrow
+                        },
+                    }}
+                />
+            </div>
         </>
     );
 };

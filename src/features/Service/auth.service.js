@@ -75,15 +75,16 @@ export const deleteUser = async (ids) => {
   }
 };
 
-export const getAllData = async () => {
+ export const getAllData = async (params) => {
   try {
-    const response = await axios.get(`${API_BASEURL}/api/addData/getAllData`); // Assuming the API endpoint is at /api/addData/getAllData
+    const response = await axios.get(`${API_BASEURL}/api/addData/getAllData`, {
+      params: params
+    });
     return response.data;
   } catch (error) {
     throw new Error('Error fetching data');
   }
 };
-
 
 export const addSimData = async (simData) => {
   try {

@@ -8,8 +8,10 @@ import './Login.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginAuth } from './Service/auth.service';
-
+import { useAuth } from './AuthContext';
 const Login = () => {
+  // const { login } = useAuth();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -31,6 +33,8 @@ const Login = () => {
         if (role === 'admin') {
           // alert("Welcome to admin dashboard");
           navigate('/adminDashboard'); // Navigate to admin dashboard
+          // login();
+
 
         } else {
           navigate('/userdashboard/details');

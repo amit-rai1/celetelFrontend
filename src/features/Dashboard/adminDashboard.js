@@ -14,6 +14,8 @@ import { Sidebaradmin } from '../Common/adminSidebar';
 
 import { getSimStatistics } from '../Service/auth.service';
 
+// import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -31,6 +33,16 @@ const cardStyle = {
 
 export const AdminDashboard = () => {
     const [stats, setStats] = useState(null);
+
+    // const { isLoggedIn } = useAuth();
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+
+    // useEffect(() => {
+    //     if (!isLoggedIn) {
+    //         // Redirect to login page if not authenticated
+    //         navigate('/login'); // Use navigate to redirect
+    //     }
+    // }, [isLoggedIn, navigate]);
 
       useEffect(() => {
         const fetchData = async () => {
