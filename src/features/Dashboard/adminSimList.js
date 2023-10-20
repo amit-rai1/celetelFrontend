@@ -33,7 +33,7 @@ export const AdminList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [stats, setStats] = useState(null);
 
-    const { isLoggedIn } = useAuth();
+    // const { isLoggedIn } = useAuth();
     const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
     // useEffect(() => {
